@@ -32,7 +32,7 @@
 /* Begin PBXFileReference section */
 		58C7AC67ABD69382F52B1C43 /* CategoryResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryResponse.swift; sourceTree = "<group>"; };
 		58C7AFBC75CDE3C83964BE9B /* ListDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDataProvider.swift; sourceTree = "<group>"; };
-		AC101F342652DA0700229855 /* ProductListTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProductListTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC101F342652DA0700229855 /* ProductList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProductList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC101F372652DA0700229855 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC101F392652DA0700229855 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AC101F412652DA0700229855 /* ItemListTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ItemListTest.xcdatamodel; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		AC101F2B2652DA0700229855 = {
 			isa = PBXGroup;
 			children = (
-				AC101F362652DA0700229855 /* ProductListTest */,
+				AC101F362652DA0700229855 /* ProductList */,
 				AC101F352652DA0700229855 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,12 +84,12 @@
 		AC101F352652DA0700229855 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC101F342652DA0700229855 /* ProductListTest.app */,
+				AC101F342652DA0700229855 /* ProductList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC101F362652DA0700229855 /* ProductListTest */ = {
+		AC101F362652DA0700229855 /* ProductList */ = {
 			isa = PBXGroup;
 			children = (
 				AC101F502652DB0A00229855 /* Views */,
@@ -98,7 +98,7 @@
 				AC101F4E2652DA4800229855 /* Other */,
 				ACFCF5532653A70A00A46D40 /* Components */,
 			);
-			path = ProductListTest;
+			path = ProductList;
 			sourceTree = "<group>";
 		};
 		AC101F4E2652DA4800229855 /* Other */ = {
@@ -200,9 +200,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AC101F332652DA0700229855 /* ProductListTest */ = {
+		AC101F332652DA0700229855 /* ProductList */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC101F4B2652DA0800229855 /* Build configuration list for PBXNativeTarget "ProductListTest" */;
+			buildConfigurationList = AC101F4B2652DA0800229855 /* Build configuration list for PBXNativeTarget "ProductList" */;
 			buildPhases = (
 				AC101F302652DA0700229855 /* Sources */,
 				AC101F312652DA0700229855 /* Frameworks */,
@@ -212,9 +212,9 @@
 			);
 			dependencies = (
 			);
-			name = ProductListTest;
+			name = ProductList;
 			productName = ItemListTest;
-			productReference = AC101F342652DA0700229855 /* ProductListTest.app */;
+			productReference = AC101F342652DA0700229855 /* ProductList.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -231,7 +231,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AC101F2F2652DA0700229855 /* Build configuration list for PBXProject "ProductListTest" */;
+			buildConfigurationList = AC101F2F2652DA0700229855 /* Build configuration list for PBXProject "ProductList" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -244,7 +244,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC101F332652DA0700229855 /* ProductListTest */,
+				AC101F332652DA0700229855 /* ProductList */,
 			);
 		};
 /* End PBXProject section */
@@ -424,12 +424,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KEYTJ8NN69;
-				INFOPLIST_FILE = ProductListTest/Other/Info.plist;
+				INFOPLIST_FILE = ProductList/Other/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = test.ProductListTest;
+				PRODUCT_BUNDLE_IDENTIFIER = test.ProductList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -443,12 +443,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KEYTJ8NN69;
-				INFOPLIST_FILE = ProductListTest/Other/Info.plist;
+				INFOPLIST_FILE = ProductList/Other/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = test.ProductListTest;
+				PRODUCT_BUNDLE_IDENTIFIER = test.ProductList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -458,7 +458,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AC101F2F2652DA0700229855 /* Build configuration list for PBXProject "ProductListTest" */ = {
+		AC101F2F2652DA0700229855 /* Build configuration list for PBXProject "ProductList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC101F492652DA0800229855 /* Debug */,
@@ -467,7 +467,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC101F4B2652DA0800229855 /* Build configuration list for PBXNativeTarget "ProductListTest" */ = {
+		AC101F4B2652DA0800229855 /* Build configuration list for PBXNativeTarget "ProductList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC101F4C2652DA0800229855 /* Debug */,

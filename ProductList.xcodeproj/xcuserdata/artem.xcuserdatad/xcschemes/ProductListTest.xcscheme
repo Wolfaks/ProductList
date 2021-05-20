@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AC101F332652DA0700229855"
-               BuildableName = "ProductListTest.app"
-               BlueprintName = "ProductListTest"
-               ReferencedContainer = "container:ProductListTest.xcodeproj">
+               BuildableName = "ProductList.app"
+               BlueprintName = "ProductList"
+               ReferencedContainer = "container:ProductList.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC101F332652DA0700229855"
-            BuildableName = "ProductListTest.app"
-            BlueprintName = "ProductListTest"
-            ReferencedContainer = "container:ProductListTest.xcodeproj">
+            BuildableName = "ProductList.app"
+            BlueprintName = "ProductList"
+            ReferencedContainer = "container:ProductList.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
