@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CartButtList" customModule="ProductListTest" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CartButtList" customModule="ProductList" customModuleProvider="target">
             <connections>
                 <outlet property="radiusView" destination="axE-6W-OD8" id="Jjk-Eb-4tZ"/>
             </connections>
@@ -21,12 +21,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="axE-6W-OD8">
                     <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBY-fc-Dji">
-                            <rect key="frame" x="3" y="3" width="22" height="22"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="22" id="B0k-2F-ce7"/>
-                                <constraint firstAttribute="width" constant="22" id="xJf-7W-Jda"/>
-                            </constraints>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBY-fc-Dji" userLabel="cartButt">
+                            <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                             <state key="normal" backgroundImage="cart"/>
                             <connections>
                                 <action selector="addCartButt:" destination="-1" eventType="touchUpInside" id="hQx-qV-Hl7"/>
@@ -35,8 +31,10 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="linkColor"/>
                     <constraints>
-                        <constraint firstItem="QBY-fc-Dji" firstAttribute="centerY" secondItem="axE-6W-OD8" secondAttribute="centerY" id="5LJ-cK-ZVN"/>
-                        <constraint firstItem="QBY-fc-Dji" firstAttribute="centerX" secondItem="axE-6W-OD8" secondAttribute="centerX" id="koO-9I-8ux"/>
+                        <constraint firstAttribute="trailing" secondItem="QBY-fc-Dji" secondAttribute="trailing" id="3io-IJ-cgL"/>
+                        <constraint firstItem="QBY-fc-Dji" firstAttribute="leading" secondItem="axE-6W-OD8" secondAttribute="leading" id="4nR-0n-uiF"/>
+                        <constraint firstItem="QBY-fc-Dji" firstAttribute="top" secondItem="axE-6W-OD8" secondAttribute="top" id="Gtg-Ro-ujB"/>
+                        <constraint firstAttribute="bottom" secondItem="QBY-fc-Dji" secondAttribute="bottom" id="iyq-uW-5L1"/>
                     </constraints>
                 </view>
             </subviews>
