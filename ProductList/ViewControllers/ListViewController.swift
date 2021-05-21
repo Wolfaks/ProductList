@@ -3,10 +3,9 @@ import UIKit
 
 class ListViewController: UIViewController {
 
+    @IBOutlet weak var searchForm: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadIndicator: UIActivityIndicatorView!
-    
-    private let searchController = UISearchController(searchResultsController: nil)
     
     private var dataProvider: ListDataProvider!
 
@@ -14,7 +13,7 @@ class ListViewController: UIViewController {
     var searchText = ""
     var searchTimer = Timer()
 
-    // Page
+    // Страницы
     var page = 1
     var haveNextPage = false
     
@@ -29,20 +28,70 @@ class ListViewController: UIViewController {
         dataProvider = ListDataProvider()
         dataProvider.delegate = self
         
+        // searchForm
+        searchForm.delegate = self
+        searchForm.addTarget(self, action: #selector(changeSearchText), for: .editingChanged) // добавляем отслеживание изменения текста
+        
         // TableView
         tableView.delegate = dataProvider
         tableView.dataSource = dataProvider
         tableView.rowHeight = 160.0
         
-        // searchController и вывод его в navigationBar
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Я ищу"
-        searchController.obscuresBackgroundDuringPresentation = false
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        
         // Запрос данных
         loadProducts()
+        
+    }
+    
+    @IBAction func removeSearch(_ sender: Any) {
+        
+        // Очищаем форму поиска
+        searchForm.text = ""
+        
+        // Скрываем клавиатуру
+        hideKeyboard()
+        
+        // Вызываем метод поиска
+        changeSearchText(textField: searchForm)
+        
+    }
+    
+    func hideKeyboard() {
+        view.endEditing(true);
+    }
+    
+    @objc func delayedSearch() {
+
+        // Выполняем поиск
+
+        // Задаем первую страницу
+        page = 1
+
+        // Запрос данных
+        loadProducts()
+
+    }
+    
+    @objc func changeSearchText(textField: UITextField) {
+
+        // Проверяем измененный в форме текст
+        guard let newSearchText = textField.text else { return }
+        
+        // Выполняем поиск когда форма была изменена
+        if newSearchText.hash == searchText.hash {
+            return
+        }
+
+        // Получаем искомую строку
+        searchText = newSearchText
+
+        // Очищаем старые данные и обновляем таблицу
+        removeOldProducts()
+
+        // Отменяем предыдущий таймер поиска
+        searchTimer.invalidate()
+
+        // Таймер задержки поиска (по ТЗ)
+        searchTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(delayedSearch), userInfo: nil, repeats: false)
         
     }
     
@@ -115,41 +164,16 @@ extension ListViewController: ListDataProviderProtocol {
     
 }
 
-extension ListViewController: UISearchResultsUpdating {
+extension ListViewController: UITextFieldDelegate {
     
-    @objc func delayedSearch() {
-
-        // Выполняем поиск
-
-        // Задаем первую страницу
-        page = 1
-
-        // Запрос данных
-        loadProducts()
-
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-
-        // Выполняем поиск
-        guard let newSearchText = searchController.searchBar.text else { return }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        // Выполняем поиск когда форма была изменена
-        if newSearchText.hash == searchText.hash {
-            return
+        if textField == searchForm {
+            // Скрываем клавиатуру при нажатии на клавишу Done / Готово
+            hideKeyboard()
         }
-
-        // Получаем искомую строку
-        searchText = newSearchText
-
-        // Очищаем старые данные и обновляем таблицу
-        removeOldProducts()
-
-        // Отменяем предыдущий таймер поиска
-        searchTimer.invalidate()
-
-        // Таймер задержки поиска (по ТЗ)
-        searchTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(delayedSearch), userInfo: nil, repeats: false)
+        
+        return true
         
     }
     
