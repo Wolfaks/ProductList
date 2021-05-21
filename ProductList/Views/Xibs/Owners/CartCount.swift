@@ -23,12 +23,6 @@ protocol CartCountDelegate: class {
     var view: UIView!
     var nibName: String = "CartCount"
     
-    // Размеры view
-    enum sizeView: CGFloat {
-        case width = 92.0
-        case height = 28.0
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()

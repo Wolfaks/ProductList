@@ -3,6 +3,7 @@ import UIKit
 
 protocol ProductListCellDelegate: class {
     func changeCartCount(index: Int, value: Int)
+    func redirectToDetail(index: Int)
 }
 
 class ProductListTableCell: UITableViewCell {
@@ -35,6 +36,52 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
+    func setCartButtons(product: Product) {
+        
+        // Вывод корзины и кол-ва добавленых в корзину
+        if product.selectedAmount > 0 {
+            
+            // Выводим переключатель кол-ва продукта в корзине
+            cartButtListView.isHidden = true
+            cartCountView.isHidden = false
+            
+            // Задаем текущее значение счетчика
+            cartCountView.count = product.selectedAmount
+            
+            // Подписываемся на делегат
+            cartCountView.delegate = self
+            
+        } else {
+            // Выводим кнопку добавления в карзину
+            cartButtListView.isHidden = false
+            cartButtListView.delegate = self
+            cartCountView.isHidden = true
+        }
+        
+    }
+    
+    @objc func detailTapped() {
+        
+        // Выполняем переход в детальную информацию
+        guard let productIndex = productIndex else { return }
+        delegate?.redirectToDetail(index: productIndex)
+        
+    }
+    
+    func setClicable() {
+        
+        // Клик на изображение для перехода в детальную информацию
+        let tapImageGesture = UITapGestureRecognizer(target: self, action: #selector(detailTapped))
+        productImage.isUserInteractionEnabled = true
+        productImage.addGestureRecognizer(tapImageGesture)
+        
+        // Клик на название для перехода в детальную информацию
+        let tapTitleGesture = UITapGestureRecognizer(target: self, action: #selector(detailTapped))
+        productTitle.isUserInteractionEnabled = true
+        productTitle.addGestureRecognizer(tapTitleGesture)
+        
+    }
+    
     func set(product: Product) {
         
         // Устанавливаем обводку
@@ -63,24 +110,10 @@ class ProductListTableCell: UITableViewCell {
         }
         
         // Вывод корзины и кол-ва добавленых в корзину
-        if product.selectedAmount > 0 {
-            
-            // Выводим переключатель кол-ва продукта в корзине
-            cartButtListView.isHidden = true
-            cartCountView.isHidden = false
-            
-            // Задаем текущее значение счетчика
-            cartCountView.count = product.selectedAmount
-            
-            // Подписываемся на делегат
-            cartCountView.delegate = self
-            
-        } else {
-            // Выводим кнопку добавления в карзину
-            cartButtListView.isHidden = false
-            cartButtListView.delegate = self
-            cartCountView.isHidden = true
-        }
+        setCartButtons(product: product)
+        
+        // Действия при клике
+        setClicable()
         
     }
     

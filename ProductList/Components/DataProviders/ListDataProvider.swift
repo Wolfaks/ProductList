@@ -4,6 +4,7 @@ import UIKit
 protocol ListDataProviderProtocol: AnyObject {
     func nextPage()
     func updateTableView()
+    func showDetail(index: Int)
 }
 
 class ListDataProvider: NSObject {
@@ -45,6 +46,7 @@ extension ListDataProvider: UITableViewDelegate {
 extension ListDataProvider: ProductListCellDelegate {
     
     func changeCartCount(index: Int, value: Int) {
+        
         // Изменяем кол-во товара в корзине
         if !productList.indices.contains(index) {
             return
@@ -55,6 +57,16 @@ extension ListDataProvider: ProductListCellDelegate {
         
         // Обновляем tableView
         delegate?.updateTableView()
+        
+    }
+    
+    func redirectToDetail(index: Int) {
+        
+        // Выполняем переход в детальную информацию
+        if !productList.indices.contains(index) {
+            return
+        }
+        delegate?.showDetail(index: index)
         
     }
     

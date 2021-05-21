@@ -5,7 +5,7 @@ class Networking {
 
     enum LinkList: String {
         case list = "https://rstestapi.redsoftdigital.com/api/v1/products"
-        case product = "https://rstestapi.redsoftdigital.com/api/v1/product/"
+        case product = "https://rstestapi.redsoftdigital.com/api/v1/products/"
     }
 
     // Создаем синглтон для обращения к методам класса

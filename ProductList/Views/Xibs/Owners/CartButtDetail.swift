@@ -1,18 +1,17 @@
 
 import UIKit
 
-protocol CartButtListDelegate: class {
+protocol CartButtDetailDelegate: class {
     func addCart()
 }
 
-@IBDesignable class CartButtList: UIView, CartButtProtocol {
+@IBDesignable class CartButtDetail: UIView, CartButtProtocol {
     
     @IBOutlet weak var radiusView: UIView!
-    @IBOutlet weak var cartButton: UIButton!
-    weak var delegate: CartButtListDelegate?
+    weak var delegate: CartButtDetailDelegate?
     
     var view: UIView!
-    var nibName: String = "CartButtList"
+    var nibName: String = "CartButtDetail"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +46,9 @@ protocol CartButtListDelegate: class {
         radiusView.layer.cornerRadius = 5.0
         
         // Клик на добавление в карзину
-        cartButton.addTarget(self, action: #selector(addCartTapped), for: .touchUpInside)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addCartTapped))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tapGesture)
         
     }
     

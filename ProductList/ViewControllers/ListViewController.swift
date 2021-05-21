@@ -17,6 +17,9 @@ class ListViewController: UIViewController {
     var page = 1
     var haveNextPage = false
     
+    // Переход в детальную информацию
+    private var productIndex: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         settingUI()
@@ -109,11 +112,11 @@ class ListViewController: UIViewController {
     func loadProducts() {
         
         // Отправляем запрос загрузки товаров
-        ProductNetworking.getProducts(page: page, searchText: searchText) { (response) in
+        ProductNetworking.getProducts(page: page, searchText: searchText) { [weak self] (response) in
             
             // Скрываем анимацию загрузки
-            if self.page == 1 {
-                self.loadIndicator.stopAnimating()
+            if self?.page == 1 {
+                self?.loadIndicator.stopAnimating()
             }
 
             // Обрабатываем полученные товары
@@ -123,7 +126,7 @@ class ListViewController: UIViewController {
             if !products.isEmpty && products.count == ProductNetworking.maxProductsOnPage {
 
                 // Задаем наличие следующей страницы
-                self.haveNextPage = true
+                self?.haveNextPage = true
 
                 // Удаляем последний элемент, который используется только для проверки на наличие следующей страницы
                 products.remove(at: products.count - 1)
@@ -132,16 +135,37 @@ class ListViewController: UIViewController {
 
             // Устанавливаем загруженные товары и обновляем таблицу
             // append contentsOf так как у нас метод грузит как первую страницу, так и последующие
-            self.dataProvider.productList.append(contentsOf: products)
-            self.tableView.reloadData()
+            self?.dataProvider.productList.append(contentsOf: products)
+            self?.tableView.reloadData()
             
         }
         
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "detail" {
+            
+            if let index = productIndex, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) {
+            
+                // Переход в детальную информацию
+                guard let detailController = segue.destination as? DetailViewController else { return }
+                detailController.productIndex = index
+                detailController.productID = dataProvider.productList[index].id
+                detailController.productTitle = dataProvider.productList[index].title
+                detailController.productSelectedAmount = dataProvider.productList[index].selectedAmount
+                detailController.delegate = self
+                
+            }
+            
+        }
+        
+    }
+    
 }
 
 extension ListViewController: ListDataProviderProtocol {
+    
    
     func nextPage() {
         // Загружаем следующую страницу, если она есть
@@ -162,6 +186,12 @@ extension ListViewController: ListDataProviderProtocol {
         tableView.reloadData()
     }
     
+    func showDetail(index: Int) {
+        // Выполняем переход в детальную информацию
+        productIndex = index
+        performSegue(withIdentifier: "detail", sender: self)
+    }
+    
 }
 
 extension ListViewController: UITextFieldDelegate {
@@ -174,6 +204,25 @@ extension ListViewController: UITextFieldDelegate {
         }
         
         return true
+        
+    }
+    
+}
+
+extension ListViewController: DetailProductDelegate {
+    
+    func changeCartCount(index: Int, value: Int) {
+        
+        // Изменяем кол-во товара в корзине
+        if let index = productIndex, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) {
+            
+            // Записываем новое значение
+            dataProvider.productList[index].selectedAmount = value
+            
+            // Обновляем tableView
+            tableView.reloadData()
+            
+        }
         
     }
     

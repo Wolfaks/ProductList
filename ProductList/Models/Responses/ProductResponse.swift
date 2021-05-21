@@ -4,11 +4,12 @@ import Foundation
 struct ProductResponse {
     
     var products = [Product]()
+    var product: Product?
 
-    init(json: Any) {
+    init(productsJson: Any) {
         
-        // Обрабатываем полученные данные
-        guard let arrayJson = json as? [String: AnyObject], let productsArray = arrayJson["data"] as? [[String: AnyObject]] else { return }
+        // Обрабатываем полученные данные списка
+        guard let arrayJson = productsJson as? [String: AnyObject], let productsArray = arrayJson["data"] as? [[String: AnyObject]] else { return }
         
         // Перебор всех элементов и запись в модель
         var products = [Product]()
@@ -18,14 +19,12 @@ struct ProductResponse {
             var product = productDict
 
             // Получаем первую категорию (по ТЗ)
-            product["category"] = "Нет категории" as AnyObject
-
             do {
 
                 let categoriesResponse = try CategoryResponse(json: product["categories"])
-                if let categories = categoriesResponse.categories as? [Category], !categories.isEmpty {
+                if !categoriesResponse.categories.isEmpty {
 
-                    if let firstCategory = categories.first {
+                    if let firstCategory = categoriesResponse.categories.first {
                         product["category"] = firstCategory.title as AnyObject
                     }
 
@@ -50,6 +49,32 @@ struct ProductResponse {
         
         self.products = products
         // END Перебор всех элементов и запись в модель
+        
+    }
+    
+    init(oneProductJson: Any) {
+        
+        // Обрабатываем полученные данные детальной информации
+        guard let arrayJson = oneProductJson as? [String: AnyObject], let productDisc = arrayJson["data"] as? [String: AnyObject], let product = Product(product: productDisc) else { return }
+        
+        // Задаем данные товара
+        self.product = product
+        
+        // Получаем категории
+        if let categoryArr = productDisc["categories"] as? [[String: AnyObject]], !categoryArr.isEmpty {
+            
+            var categories = [Category]()
+            for categoryDisc in categoryArr {
+                guard let category = Category(category: categoryDisc) else {
+                    continue
+                }
+                categories.append(category)
+            }
+            
+            self.product?.categories = categories
+            
+        }
+        // END Получаем категории
         
     }
     

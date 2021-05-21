@@ -29,7 +29,26 @@ class ProductNetworking {
         Networking.network.getData(link: Networking.LinkList.list.rawValue, params: params) { (json) in
             
             do {
-                let response = try ProductResponse(json: json)
+                let response = try ProductResponse(productsJson: json)
+                complition(response)
+            } catch {
+                print(error)
+            }
+            
+        }
+        
+    }
+    
+    static func getOneProduct(id: Int, complition: @escaping(ProductResponse) -> ()) {
+        
+        // Подготовка параметров для запроса, задаем выбранный id
+        let link = Networking.LinkList.product.rawValue + "\(id)"
+        
+        // Получаем список
+        Networking.network.getData(link: link, params: [:]) { (json) in
+            
+            do {
+                let response = try ProductResponse(oneProductJson: json)
                 complition(response)
             } catch {
                 print(error)
