@@ -1,11 +1,6 @@
 
 import UIKit
 
-protocol ProductListCellDelegate: class {
-    func changeCartCount(index: Int, value: Int)
-    func redirectToDetail(index: Int)
-}
-
 class ProductListTableCell: UITableViewCell {
     
     @IBOutlet weak var borderView: UIView!
@@ -21,8 +16,7 @@ class ProductListTableCell: UITableViewCell {
     @IBOutlet weak var cartCountView: CartCount!
     
     var productIndex: Int?
-    weak var delegate: ProductListCellDelegate?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -64,7 +58,9 @@ class ProductListTableCell: UITableViewCell {
         
         // Выполняем переход в детальную информацию
         guard let productIndex = productIndex else { return }
-        delegate?.redirectToDetail(index: productIndex)
+
+        // Уведомляем наблюдатель о переходе в детальную информацию
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationRedirectToDetail"), object: nil, userInfo: ["index": productIndex])
         
     }
     
@@ -124,7 +120,10 @@ extension ProductListTableCell: CartCountDelegate {
     func changeCount(value: Int) {
         // Изменяем значение количества в структуре
         guard let productIndex = productIndex else { return }
-        delegate?.changeCartCount(index: productIndex, value: value)
+
+        // Обновляем значение в корзине в списке через наблюдатель
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": value])
+
     }
     
 }
@@ -132,9 +131,13 @@ extension ProductListTableCell: CartCountDelegate {
 extension ProductListTableCell: CartButtListDelegate {
     
     func addCart() {
+
         // Добавляем товар в карзину
         guard let productIndex = productIndex else { return }
-        delegate?.changeCartCount(index: productIndex, value: 1)
+
+        // Обновляем значение в корзине в списке через наблюдатель
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": 1])
+
     }
     
 }

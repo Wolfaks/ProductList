@@ -3,8 +3,6 @@ import UIKit
 
 protocol ListDataProviderProtocol: AnyObject {
     func nextPage()
-    func updateTableView()
-    func showDetail(index: Int)
 }
 
 class ListDataProvider: NSObject {
@@ -25,7 +23,6 @@ extension ListDataProvider: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ProductListTableCell
         cell.productIndex = indexPath.row
         cell.set(product: productList[indexPath.row])
-        cell.delegate = self
         return cell
         
     }
@@ -41,33 +38,4 @@ extension ListDataProvider: UITableViewDelegate {
         }
     }
 
-}
-
-extension ListDataProvider: ProductListCellDelegate {
-    
-    func changeCartCount(index: Int, value: Int) {
-        
-        // Изменяем кол-во товара в корзине
-        if !productList.indices.contains(index) {
-            return
-        }
-        
-        // Записываем новое значение
-        productList[index].selectedAmount = value
-        
-        // Обновляем tableView
-        delegate?.updateTableView()
-        
-    }
-    
-    func redirectToDetail(index: Int) {
-        
-        // Выполняем переход в детальную информацию
-        if !productList.indices.contains(index) {
-            return
-        }
-        delegate?.showDetail(index: index)
-        
-    }
-    
 }

@@ -1,10 +1,6 @@
 
 import UIKit
 
-protocol DetailProductDelegate: class {
-    func changeCartCount(index: Int, value: Int)
-}
-
 class DetailViewController: UIViewController {
     
     var productIndex: Int?
@@ -25,8 +21,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var cartButtDetailView: CartButtDetail!
     @IBOutlet weak var cartCountView: CartCount!
-    
-    weak var delegate: DetailProductDelegate?
+
     private var dataProvider: DetailDataProvider!
     
     override func viewDidLoad() {
@@ -190,8 +185,8 @@ extension DetailViewController: CartCountDelegate {
         productSelectedAmount = value
         setCartButtons()
         
-        // Обновляем значение в делегированном классе
-        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
+        // Обновляем значение в корзине в списке через наблюдатель
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": productSelectedAmount])
         
     }
     
@@ -207,9 +202,9 @@ extension DetailViewController: CartButtDetailDelegate {
         // Обновляем кнопку в отображении
         productSelectedAmount = 1
         setCartButtons()
-        
-        // Обновляем значение в делегированном классе
-        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
+
+        // Обновляем значение в корзине в списке через наблюдатель
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": productSelectedAmount])
         
     }
     
