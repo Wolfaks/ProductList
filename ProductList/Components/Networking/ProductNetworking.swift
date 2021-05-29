@@ -29,7 +29,7 @@ class ProductNetworking {
         Networking.network.getData(link: Networking.LinkList.list.rawValue, params: params) { (json) in
             
             do {
-                let response = try ProductResponse(productsJson: json)
+                let response = try ProductResponse(products: json)
                 complition(response)
             } catch {
                 print(error)
@@ -48,7 +48,7 @@ class ProductNetworking {
         Networking.network.getData(link: link, params: [:]) { (json) in
             
             do {
-                let response = try ProductResponse(oneProductJson: json)
+                let response = try ProductResponse(product: json)
                 complition(response)
             } catch {
                 print(error)

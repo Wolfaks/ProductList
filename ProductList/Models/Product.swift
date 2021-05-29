@@ -24,9 +24,32 @@ struct Product {
               let amount = product["amount"] as? Int,
               let price = product["price"] as? Double,
               let producer = product["producer"] as? String else { return nil }
-        
-        let category = product["category"] as? String
-        let categories = product["categories"] as? [Category]
+
+        // Получаем категории
+        var category = "Нет категории"
+        var categories = [Category]()
+
+        if let categoryArr = product["categories"] as? [[String: Any]], !categoryArr.isEmpty {
+            do {
+
+                let categoriesResponse = try CategoryResponse(array: categoryArr)
+                if !categoriesResponse.categories.isEmpty {
+
+                    // Записываем
+                    categories = categoriesResponse.categories
+
+                    // Получаем первую категорию (по ТЗ)
+                    if let firstCategory = categoriesResponse.categories.first {
+                        category = firstCategory.title
+                    }
+
+                }
+
+            } catch {
+                print(error)
+            }
+        }
+        // END Получаем категории
         
         self.id = id
         self.title = title
@@ -35,8 +58,8 @@ struct Product {
         self.amount = amount
         self.price = price
         self.producer = producer
-        self.category = category ?? "Нет категории"
-        self.categories = categories ?? [Category]()
+        self.category = category
+        self.categories = categories
         
     }
     

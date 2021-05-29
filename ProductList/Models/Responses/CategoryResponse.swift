@@ -5,23 +5,19 @@ struct CategoryResponse {
     
     var categories = [Category]()
 
-    init(json: Any) {
+    init(array: Any) {
         
         // Обрабатываем полученные данные
-        guard let categoriesArray = json as? [[String: AnyObject]] else { return }
-        
-        // Перебор всех элементов и запись в модель
-        var categories = [Category]()
-        for categoryDict in categoriesArray {
+        guard let categoriesDict = array as? [[String: Any]] else { return }
 
-            // Добавляем в массив
-            guard let category = Category(category: categoryDict) else { continue }
-            categories.append(category)
-            
+        // Перевод словаря в объекты модели
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: categoriesDict, options: [])
+            let decoder = JSONDecoder()
+            categories = try decoder.decode([Category].self, from: jsonData)
+        } catch {
+            //print(error.localizedDescription)
         }
-        
-        self.categories = categories
-        // END Перебор всех элементов и запись в модель
         
     }
     
