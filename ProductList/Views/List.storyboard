@@ -85,7 +85,7 @@
                                                                                     <color key="textColor" systemColor="linkColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FTZ-2X-Ebe" customClass="CartButtList" customModule="ProductList" customModuleProvider="target">
+                                                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FTZ-2X-Ebe" customClass="CartBtnList" customModule="ProductList" customModuleProvider="target">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                                     <constraints>
@@ -133,7 +133,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="borderView" destination="WUQ-2O-gXd" id="mCo-pH-5bc"/>
-                                            <outlet property="cartButtListView" destination="FTZ-2X-Ebe" id="FLH-7A-f9w"/>
+                                            <outlet property="cartBtnListView" destination="FTZ-2X-Ebe" id="FLH-7A-f9w"/>
                                             <outlet property="cartCountView" destination="ECE-nb-yev" id="SBG-fB-tGt"/>
                                             <outlet property="productCategory" destination="dsB-m7-323" id="NCH-LY-mUA"/>
                                             <outlet property="productImage" destination="U2x-eK-5Ck" id="GP7-BO-Cqb"/>
@@ -301,7 +301,7 @@
                                                 <color key="textColor" systemColor="linkColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8x-2W-2WM" customClass="CartButtDetail" customModule="ProductList" customModuleProvider="target">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8x-2W-2WM" customClass="CartBtnDetail" customModule="ProductList" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="92" height="28"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -343,7 +343,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="U5e-Q7-zxt"/>
                     <connections>
-                        <outlet property="cartButtDetailView" destination="u8x-2W-2WM" id="BEO-EX-uq6"/>
+                        <outlet property="cartBtnDetailView" destination="u8x-2W-2WM" id="BEO-EX-uq6"/>
                         <outlet property="cartCountView" destination="idB-ub-I1W" id="fmu-6b-R9M"/>
                         <outlet property="constraintDescriptionHeight" destination="iYq-hh-zWA" id="jfQ-Ar-wGG"/>
                         <outlet property="descriptionLabel" destination="N6V-yE-86i" id="ZMg-QS-j2R"/>

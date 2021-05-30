@@ -8,8 +8,8 @@ protocol CartCountDelegate: class {
 @IBDesignable class CartCount: UIView {
 
     @IBOutlet weak var radiusStackView: UIStackView!
-    @IBOutlet weak var minusButt: UIButton!
-    @IBOutlet weak var plusButt: UIButton!
+    @IBOutlet weak var minusBtn: UIButton!
+    @IBOutlet weak var plusBtn: UIButton!
     @IBOutlet weak var selectedAmount: UILabel!
     
     weak var delegate: CartCountDelegate?
@@ -56,13 +56,13 @@ protocol CartCountDelegate: class {
         
     }
     
-    @IBAction func changeCountButt(_ sender: UIButton) {
+    @IBAction func changeCountBtn(_ sender: UIButton) {
         
         // Меняем значение в корзине нажатием на кнопку - / +
-        if sender == minusButt {
+        if sender == minusBtn {
             // Нельзя задавать значение меньше нуля
             count = max(0, count - 1)
-        } else if sender == plusButt {
+        } else if sender == plusBtn {
             count += 1
         }
         

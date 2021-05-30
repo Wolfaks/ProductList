@@ -12,7 +12,7 @@ class ProductListTableCell: UITableViewCell {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var stackFooterCell: UIStackView!
     
-    @IBOutlet weak var cartButtListView: CartButtList!
+    @IBOutlet weak var cartBtnListView: CartBtnList!
     @IBOutlet weak var cartCountView: CartCount!
     
     var productIndex: Int?
@@ -36,7 +36,7 @@ class ProductListTableCell: UITableViewCell {
         if product.selectedAmount > 0 {
             
             // Выводим переключатель кол-ва продукта в корзине
-            cartButtListView.isHidden = true
+            cartBtnListView.isHidden = true
             cartCountView.isHidden = false
             
             // Задаем текущее значение счетчика
@@ -47,8 +47,8 @@ class ProductListTableCell: UITableViewCell {
             
         } else {
             // Выводим кнопку добавления в карзину
-            cartButtListView.isHidden = false
-            cartButtListView.delegate = self
+            cartBtnListView.isHidden = false
+            cartBtnListView.delegate = self
             cartCountView.isHidden = true
         }
         
@@ -128,7 +128,7 @@ extension ProductListTableCell: CartCountDelegate {
     
 }
 
-extension ProductListTableCell: CartButtListDelegate {
+extension ProductListTableCell: CartBtnListDelegate {
     
     func addCart() {
 

@@ -19,7 +19,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var constraintDescriptionHeight: NSLayoutConstraint!
     
-    @IBOutlet weak var cartButtDetailView: CartButtDetail!
+    @IBOutlet weak var cartBtnDetailView: CartBtnDetail!
     @IBOutlet weak var cartCountView: CartCount!
 
     private var dataProvider: DetailDataProvider!
@@ -66,7 +66,7 @@ class DetailViewController: UIViewController {
         if productSelectedAmount > 0 {
             
             // Выводим переключатель кол-ва продукта в корзине
-            cartButtDetailView.isHidden = true
+            cartBtnDetailView.isHidden = true
             cartCountView.isHidden = false
             
             // Задаем текущее значение счетчика
@@ -77,8 +77,8 @@ class DetailViewController: UIViewController {
             
         } else {
             // Выводим кнопку добавления в карзину
-            cartButtDetailView.isHidden = false
-            cartButtDetailView.delegate = self
+            cartBtnDetailView.isHidden = false
+            cartBtnDetailView.delegate = self
             cartCountView.isHidden = true
         }
         
@@ -192,7 +192,7 @@ extension DetailViewController: CartCountDelegate {
     
 }
 
-extension DetailViewController: CartButtDetailDelegate {
+extension DetailViewController: CartBtnDetailDelegate {
     
     func addCart() {
         

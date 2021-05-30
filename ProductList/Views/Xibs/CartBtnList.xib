@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CartButtList" customModule="ProductList" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CartBtnList" customModule="ProductList" customModuleProvider="target">
             <connections>
                 <outlet property="cartButton" destination="QBY-fc-Dji" id="oum-5V-bgv"/>
                 <outlet property="radiusView" destination="axE-6W-OD8" id="Jjk-Eb-4tZ"/>
@@ -22,7 +22,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="axE-6W-OD8">
                     <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBY-fc-Dji" userLabel="cartButt">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBY-fc-Dji" userLabel="cartBtn">
                             <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
                             <state key="normal" backgroundImage="cart"/>
                         </button>

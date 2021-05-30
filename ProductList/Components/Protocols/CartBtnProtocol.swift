@@ -1,6 +1,6 @@
 
 import Foundation
 
-protocol CartButtProtocol {
+protocol CartBtnProtocol {
     func addCartTapped()
 }

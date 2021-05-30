@@ -1,18 +1,18 @@
 
 import UIKit
 
-protocol CartButtListDelegate: class {
+protocol CartBtnListDelegate: class {
     func addCart()
 }
 
-@IBDesignable class CartButtList: UIView, CartButtProtocol {
+@IBDesignable class CartBtnList: UIView, CartBtnProtocol {
     
     @IBOutlet weak var radiusView: UIView!
     @IBOutlet weak var cartButton: UIButton!
-    weak var delegate: CartButtListDelegate?
+    weak var delegate: CartBtnListDelegate?
     
     var view: UIView!
-    var nibName: String = "CartButtList"
+    var nibName: String = "CartBtnList"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
