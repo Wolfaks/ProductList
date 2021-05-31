@@ -11,9 +11,18 @@ class ProductListTableCell: UITableViewCell {
     @IBOutlet weak var productProducer: UILabel!
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var stackFooterCell: UIStackView!
-    
-    @IBOutlet weak var cartBtnListView: CartBtnList!
-    @IBOutlet weak var cartCountView: CartCount!
+
+    let cartBtnListView: CartBtnList = {
+        let btnList = CartBtnList()
+        btnList.translatesAutoresizingMaskIntoConstraints = false
+        return btnList
+    }()
+
+    let cartCountView: CartCount = {
+        let cartCount = CartCount()
+        cartCount.translatesAutoresizingMaskIntoConstraints = false
+        return cartCount
+    }()
     
     var productIndex: Int?
 
@@ -34,22 +43,40 @@ class ProductListTableCell: UITableViewCell {
         
         // Вывод корзины и кол-ва добавленых в корзину
         if product.selectedAmount > 0 {
+
+            // Удаляем cartBtnListView
+            stackFooterCell.removeArrangedSubview(cartBtnListView)
+            cartBtnListView.removeFromSuperview()
             
             // Выводим переключатель кол-ва продукта в корзине
-            cartBtnListView.isHidden = true
-            cartCountView.isHidden = false
-            
+            stackFooterCell.addArrangedSubview(cartCountView)
+
             // Задаем текущее значение счетчика
             cartCountView.count = product.selectedAmount
-            
+
             // Подписываемся на делегат
             cartCountView.delegate = self
-            
+
+            // Constraints
+            cartCountView.widthAnchor.constraint(equalToConstant: CartCount.widthSize).isActive = true
+            cartCountView.heightAnchor.constraint(equalToConstant: CartCount.heightSize).isActive = true
+
         } else {
-            // Выводим кнопку добавления в карзину
-            cartBtnListView.isHidden = false
+
+            // Удаляем cartCountView
+            stackFooterCell.removeArrangedSubview(cartCountView)
+            cartCountView.removeFromSuperview()
+
+            // Выводим кнопку добавления в корзину
+            stackFooterCell.addArrangedSubview(cartBtnListView)
+
+            // Подписываемся на делегат
             cartBtnListView.delegate = self
-            cartCountView.isHidden = true
+
+            // Constraints
+            cartBtnListView.widthAnchor.constraint(equalToConstant: CartBtnList.widthSize).isActive = true
+            cartBtnListView.heightAnchor.constraint(equalToConstant: CartBtnList.heightSize).isActive = true
+
         }
         
     }

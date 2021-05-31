@@ -7,6 +7,9 @@ protocol CartCountDelegate: class {
 
 @IBDesignable class CartCount: UIView {
 
+    static let widthSize: CGFloat = 92.0
+    static let heightSize: CGFloat = 28.0
+
     @IBOutlet weak var radiusStackView: UIStackView!
     @IBOutlet weak var minusBtn: UIButton!
     @IBOutlet weak var plusBtn: UIButton!

@@ -6,7 +6,10 @@ protocol CartBtnListDelegate: class {
 }
 
 @IBDesignable class CartBtnList: UIView, CartBtnProtocol {
-    
+
+    static let widthSize: CGFloat = 28.0
+    static let heightSize: CGFloat = 28.0
+
     @IBOutlet weak var radiusView: UIView!
     @IBOutlet weak var cartButton: UIButton!
     weak var delegate: CartBtnListDelegate?

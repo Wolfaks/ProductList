@@ -85,22 +85,6 @@
                                                                                     <color key="textColor" systemColor="linkColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FTZ-2X-Ebe" customClass="CartBtnList" customModule="ProductList" customModuleProvider="target">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
-                                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" constant="28" id="PH6-Z5-NjB"/>
-                                                                                        <constraint firstAttribute="height" constant="28" id="z2D-sB-AMh"/>
-                                                                                    </constraints>
-                                                                                </view>
-                                                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ECE-nb-yev" customClass="CartCount" customModule="ProductList" customModuleProvider="target">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="92" height="28"/>
-                                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="height" constant="28" id="lpK-gH-gut"/>
-                                                                                        <constraint firstAttribute="width" constant="92" id="oN5-lW-OEU"/>
-                                                                                    </constraints>
-                                                                                </view>
                                                                             </subviews>
                                                                         </stackView>
                                                                     </subviews>
@@ -133,8 +117,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="borderView" destination="WUQ-2O-gXd" id="mCo-pH-5bc"/>
-                                            <outlet property="cartBtnListView" destination="FTZ-2X-Ebe" id="FLH-7A-f9w"/>
-                                            <outlet property="cartCountView" destination="ECE-nb-yev" id="SBG-fB-tGt"/>
                                             <outlet property="productCategory" destination="dsB-m7-323" id="NCH-LY-mUA"/>
                                             <outlet property="productImage" destination="U2x-eK-5Ck" id="GP7-BO-Cqb"/>
                                             <outlet property="productPrice" destination="j0d-fm-RYh" id="zSA-QB-bgS"/>
