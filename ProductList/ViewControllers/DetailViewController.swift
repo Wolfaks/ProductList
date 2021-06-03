@@ -17,8 +17,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var constraintDescriptionHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var cartBtnDetailView: CartBtnDetail!
     @IBOutlet weak var cartCountView: CartCount!
 
@@ -48,18 +46,6 @@ class DetailViewController: UIViewController {
         
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-            super.viewWillTransition(to: size, with: coordinator)
-        
-            // Экран телефона повернули, наново вычисляем высоту описания
-            // Асинхронно чтобы выполнилось после полного поворота экрана и перерисовки элементов, чтобы размеры были актуальными
-            DispatchQueue.main.async() {
-                self.setDescriptionHeight()
-            }
-        
-        }
-    
     func setCartButtons() {
         
         // Вывод корзины и кол-ва добавленых в корзину
@@ -84,23 +70,6 @@ class DetailViewController: UIViewController {
         
     }
     
-    func setDescriptionHeight() {
-        
-        constraintDescriptionHeight.constant = 0.0
-        if let text = descriptionLabel.text, !text.isEmpty {
-            
-            // Вычисляем необходимую высоту текста
-            let size = CGSize(width: descriptionLabel.frame.width, height: CGFloat.infinity)
-            let attributes = [NSAttributedString.Key.font: descriptionLabel.font]
-            let needSize = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            
-            // Задаем полученную высоту в констрейт
-            constraintDescriptionHeight.constant = needSize.height + 5.0
-            
-        }
-        
-    }
-    
     func changeDescription(text: String) {
         
         // Задаем описание
@@ -111,9 +80,6 @@ class DetailViewController: UIViewController {
             descriptionLabel.isHidden = false
             descriptionLabel.text = text
         }
-        
-        // Вычисляем высоту описания
-        setDescriptionHeight()
         
     }
     

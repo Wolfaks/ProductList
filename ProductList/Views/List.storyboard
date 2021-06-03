@@ -231,17 +231,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Igv-x0-N8o">
                                                 <rect key="frame" x="135" y="0.0" width="249" height="198"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Описание" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6V-yE-86i">
-                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="iYq-hh-zWA"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Внешний вид карточки товара не добавленного в корзину такой:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6V-yE-86i">
+                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="36"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                         <color key="textColor" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fyV-fw-VOw">
-                                                        <rect key="frame" x="0.0" y="28" width="249" height="170"/>
+                                                        <rect key="frame" x="0.0" y="46" width="249" height="152"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <prototypes>
                                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="Xpr-b6-0eM" customClass="CategoryListTableCell" customModule="ProductList" customModuleProvider="target">
@@ -327,7 +324,6 @@
                     <connections>
                         <outlet property="cartBtnDetailView" destination="u8x-2W-2WM" id="BEO-EX-uq6"/>
                         <outlet property="cartCountView" destination="idB-ub-I1W" id="fmu-6b-R9M"/>
-                        <outlet property="constraintDescriptionHeight" destination="iYq-hh-zWA" id="jfQ-Ar-wGG"/>
                         <outlet property="descriptionLabel" destination="N6V-yE-86i" id="ZMg-QS-j2R"/>
                         <outlet property="image" destination="JYF-kx-DGR" id="s99-Iv-cVq"/>
                         <outlet property="infoStackView" destination="vuX-il-Gzw" id="Mf2-x1-5dS"/>
