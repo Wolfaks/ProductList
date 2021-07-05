@@ -88,7 +88,7 @@ class ListViewController: UIViewController {
     }
     
     func hideKeyboard() {
-        view.endEditing(true);
+        view.endEditing(true)
     }
     
     @objc func changeSearchText(textField: UITextField) {
