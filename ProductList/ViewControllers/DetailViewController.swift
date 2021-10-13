@@ -114,7 +114,7 @@ class DetailViewController: UIViewController {
                     
                     // Загрузка изображения
                     guard let imageURL = URL(string: product.imageUrl) else { return }
-                    ImageNetworking.networking.getImage(link: imageURL) { (img) in
+                    ImageNetworking.shared.getImage(link: imageURL) { (img) in
                         DispatchQueue.main.async {
                             self?.image.image = img
                         }
