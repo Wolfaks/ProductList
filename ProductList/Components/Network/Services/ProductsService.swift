@@ -1,7 +1,7 @@
 
 import Foundation
 
-class ProductNetworking {
+class ProductsService {
 
     // Задаем максимальное количество элементов на странице статической константой, чтобы обращаться из других класов
     static let maxProductsOnPage = 21
@@ -26,10 +26,10 @@ class ProductNetworking {
         }
         
         // Получаем список
-        Networking.shared.getData(link: Networking.LinkList.list.rawValue, params: params) { (json) in
+        Networking.shared.getData(link: Constants.Urls.productsList, params: params) { (result) in
             
             do {
-                let response = try ProductResponse(products: json)
+                let response = try ProductResponse(products: result)
                 complition(response)
             } catch {
                 print(error)
@@ -38,24 +38,4 @@ class ProductNetworking {
         }
         
     }
-    
-    static func getOneProduct(id: Int, complition: @escaping(ProductResponse) -> ()) {
-        
-        // Подготовка параметров для запроса, задаем выбранный id
-        let link = Networking.LinkList.product.rawValue + "\(id)"
-        
-        // Получаем список
-        Networking.shared.getData(link: link, params: [:]) { (json) in
-            
-            do {
-                let response = try ProductResponse(product: json)
-                complition(response)
-            } catch {
-                print(error)
-            }
-            
-        }
-        
-    }
-    
 }

@@ -1,6 +1,10 @@
 
 import UIKit
 
+protocol DetailProductDelegate: class {
+    func changeCartCount(index: Int, value: Int)
+}
+
 class DetailViewController: UIViewController {
     
     var productIndex: Int?
@@ -20,6 +24,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var cartBtnDetailView: CartBtnDetail!
     @IBOutlet weak var cartCountView: CartCount!
 
+    weak var delegate: DetailProductDelegate?
     private var dataProvider: DetailDataProvider!
     
     override func viewDidLoad() {
@@ -46,7 +51,7 @@ class DetailViewController: UIViewController {
         
     }
     
-    func setCartButtons() {
+    private func setCartButtons() {
         
         // Вывод корзины и кол-ва добавленых в корзину
         if productSelectedAmount > 0 {
@@ -70,7 +75,7 @@ class DetailViewController: UIViewController {
         
     }
     
-    func changeDescription(text: String) {
+    private func changeDescription(text: String) {
         
         // Задаем описание
         if text.isEmpty {
@@ -83,37 +88,37 @@ class DetailViewController: UIViewController {
         
     }
     
-    func loadProduct() {
+    private func loadProduct() {
         
         // Отправляем запрос загрузки товара
         guard let productID = productID else { return }
-        ProductNetworking.getOneProduct(id: productID) { [weak self] (response) in
+        ProductDetailService.getOneProduct(id: productID) { [weak self] (response) in
   
             // Проверяем что данные были успешно обработаны
-            if let product = response.product {
+            if let product = response.product, let productData = product.data {
             
                 // Скрываем анимацию загрузки
                 self?.loadIndicator.stopAnimating()
                 
                 // Задаем обновленный заголовок страницы
-                self?.title = product.title
+                self?.title = productData.title
 
                 // Выводим информацию
-                self?.titleLabel.text = product.title
-                self?.producerLabel.text = product.producer
+                self?.titleLabel.text = productData.title
+                self?.producerLabel.text = productData.producer
                 
                 // Описание
-                self?.changeDescription(text: product.shortDescription)
+                self?.changeDescription(text: productData.shortDescription)
                 
                 // Убираем лишние нули после запятой, если они есть и выводим цену
-                self?.priceLabel.text = String(format: "%g", product.price) + " ₽"
+                self?.priceLabel.text = String(format: "%g", productData.price) + " ₽"
                 
                 // Загрузка изображения, если ссылка пуста, то выводится изображение по умолчанию
                 self?.image.image = UIImage(named: "nophoto")
-                if !product.imageUrl.isEmpty {
+                if !productData.imageUrl.isEmpty {
                     
                     // Загрузка изображения
-                    guard let imageURL = URL(string: product.imageUrl) else { return }
+                    guard let imageURL = URL(string: productData.imageUrl) else { return }
                     ImageNetworking.shared.getImage(link: imageURL) { (img) in
                         DispatchQueue.main.async {
                             self?.image.image = img
@@ -126,8 +131,10 @@ class DetailViewController: UIViewController {
                 self?.setCartButtons()
                 
                 // Устанавливаем загруженные категории и обновляем таблицу
-                self?.dataProvider.categoryList = product.categories
-                self?.tableView.reloadData()
+                if let categories = productData.categories {
+                    self?.dataProvider.categoryList = categories
+                    self?.tableView.reloadData()
+                }
                 
                 // Отображаем данные
                 self?.infoStackView.isHidden = false
@@ -141,7 +148,6 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: CartCountDelegate {
-    
     func changeCount(value: Int) {
         
         // Изменяем значение количества в структуре
@@ -151,15 +157,13 @@ extension DetailViewController: CartCountDelegate {
         productSelectedAmount = value
         setCartButtons()
         
-        // Обновляем значение в корзине в списке через наблюдатель
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": productSelectedAmount])
+        // Обновляем значение в делегированном классе
+        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
         
     }
-    
 }
 
 extension DetailViewController: CartBtnDetailDelegate {
-    
     func addCart() {
         
         // Добавляем товар в карзину
@@ -168,10 +172,9 @@ extension DetailViewController: CartBtnDetailDelegate {
         // Обновляем кнопку в отображении
         productSelectedAmount = 1
         setCartButtons()
-
-        // Обновляем значение в корзине в списке через наблюдатель
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": productSelectedAmount])
+        
+        // Обновляем значение в делегированном классе
+        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
         
     }
-    
 }

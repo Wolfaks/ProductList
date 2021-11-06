@@ -39,39 +39,10 @@ class ListViewController: UIViewController {
         tableView.delegate = dataProvider
         tableView.dataSource = dataProvider
         tableView.rowHeight = 160.0
-
-        // Наблюдатель изменения товаров в корзине
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCartCount), name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil)
-
-        // Наблюдатель перехода в детальную информацию
-        NotificationCenter.default.addObserver(self, selector: #selector(showDetail), name: Notification.Name(rawValue: "notificationRedirectToDetail"), object: nil)
         
         // Запрос данных
         loadProducts()
         
-    }
-
-    @objc func updateCartCount(notification: Notification) {
-
-        // Изменяем кол-во товара в корзине
-        guard let userInfo = notification.userInfo, let index = userInfo["index"] as? Int, let newCount = userInfo["count"] as? Int, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) else { return }
-
-        // Записываем новое значение
-        dataProvider.productList[index].selectedAmount = newCount
-
-        // Обновляем tableView
-        tableView.reloadData()
-
-    }
-
-    @objc func showDetail(notification: Notification) {
-
-        // Выполняем переход в детальную информацию
-        guard let userInfo = notification.userInfo, let index = userInfo["index"] as? Int else { return }
-
-        productIndex = index
-        performSegue(withIdentifier: "detail", sender: self)
-
     }
     
     @IBAction func removeSearch(_ sender: Any) {
@@ -87,7 +58,7 @@ class ListViewController: UIViewController {
         
     }
     
-    func hideKeyboard() {
+    private func hideKeyboard() {
         view.endEditing(true)
     }
     
@@ -131,7 +102,7 @@ class ListViewController: UIViewController {
         
     }
     
-    func removeOldProducts() {
+    private func removeOldProducts() {
         
         // Очищаем старые данные и обновляем таблицу
         dataProvider.productList.removeAll()
@@ -142,10 +113,10 @@ class ListViewController: UIViewController {
         
     }
     
-    func loadProducts() {
+    private func loadProducts() {
         
         // Отправляем запрос загрузки товаров
-        ProductNetworking.getProducts(page: page, searchText: searchText) { [weak self] (response) in
+        ProductsService.getProducts(page: page, searchText: searchText) { [weak self] (response) in
             
             // Скрываем анимацию загрузки
             if self?.page == 1 {
@@ -156,7 +127,7 @@ class ListViewController: UIViewController {
             var products = response.products
 
             // Так как API не позвращает отдельный ключ, который говорит о том, что есть следующая страница, определяем это вручную
-            if !products.isEmpty && products.count == ProductNetworking.maxProductsOnPage {
+            if !products.isEmpty && products.count == ProductsService.maxProductsOnPage {
 
                 // Задаем наличие следующей страницы
                 self?.haveNextPage = true
@@ -187,6 +158,7 @@ class ListViewController: UIViewController {
                 detailController.productID = dataProvider.productList[index].id
                 detailController.productTitle = dataProvider.productList[index].title
                 detailController.productSelectedAmount = dataProvider.productList[index].selectedAmount
+                detailController.delegate = self
 
             }
             
@@ -197,8 +169,6 @@ class ListViewController: UIViewController {
 }
 
 extension ListViewController: ListDataProviderProtocol {
-    
-   
     func nextPage() {
         // Загружаем следующую страницу, если она есть
         if haveNextPage {
@@ -213,10 +183,19 @@ extension ListViewController: ListDataProviderProtocol {
         }
     }
     
+    func updateTableView() {
+         // Обновляем tableView по запросу из ListDataProvider
+         tableView.reloadData()
+     }
+     
+     func showDetail(index: Int) {
+         // Выполняем переход в детальную информацию
+         productIndex = index
+         performSegue(withIdentifier: "detail", sender: self)
+     }
 }
 
 extension ListViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == searchForm {
@@ -225,6 +204,24 @@ extension ListViewController: UITextFieldDelegate {
         }
         
         return true
+        
+    }
+}
+
+extension ListViewController: DetailProductDelegate {
+    
+    func changeCartCount(index: Int, value: Int) {
+        
+        // Изменяем кол-во товара в корзине
+        if let index = productIndex, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) {
+            
+            // Записываем новое значение
+            dataProvider.productList[index].selectedAmount = value
+            
+            // Обновляем tableView
+            tableView.reloadData()
+            
+        }
         
     }
     

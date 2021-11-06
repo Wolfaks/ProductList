@@ -1,6 +1,11 @@
 
 import UIKit
 
+protocol ProductListCellDelegate: class {
+    func changeCartCount(index: Int, value: Int)
+    func redirectToDetail(index: Int)
+}
+
 class ProductListTableCell: UITableViewCell {
     
     @IBOutlet weak var borderView: UIView!
@@ -25,6 +30,7 @@ class ProductListTableCell: UITableViewCell {
     }()
     
     var productIndex: Int?
+    weak var delegate: ProductListCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +45,7 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
-    func setCartButtons(product: Product) {
+    func setCartButtons(product: ProductData) {
         
         // Вывод корзины и кол-ва добавленых в корзину
         if product.selectedAmount > 0 {
@@ -82,13 +88,9 @@ class ProductListTableCell: UITableViewCell {
     }
     
     @objc func detailTapped() {
-        
         // Выполняем переход в детальную информацию
         guard let productIndex = productIndex else { return }
-
-        // Уведомляем наблюдатель о переходе в детальную информацию
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationRedirectToDetail"), object: nil, userInfo: ["index": productIndex])
-        
+        delegate?.redirectToDetail(index: productIndex)
     }
     
     func setClicable() {
@@ -105,13 +107,13 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
-    func set(product: Product) {
+    func set(product: ProductData) {
         
         // Устанавливаем обводку
         setBorder()
         
         // Заполняем данные
-        productCategory.text = product.category
+        productCategory.text = product.getFirstCategory()
         productTitle.text = product.title
         productProducer.text = product.producer
         
@@ -147,24 +149,15 @@ extension ProductListTableCell: CartCountDelegate {
     func changeCount(value: Int) {
         // Изменяем значение количества в структуре
         guard let productIndex = productIndex else { return }
-
-        // Обновляем значение в корзине в списке через наблюдатель
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": value])
-
+        delegate?.changeCartCount(index: productIndex, value: value)
     }
     
 }
 
 extension ProductListTableCell: CartBtnListDelegate {
-    
     func addCart() {
-
         // Добавляем товар в карзину
         guard let productIndex = productIndex else { return }
-
-        // Обновляем значение в корзине в списке через наблюдатель
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notificationUpdateCartCount"), object: nil, userInfo: ["index": productIndex, "count": 1])
-
+        delegate?.changeCartCount(index: productIndex, value: 1)
     }
-    
 }
