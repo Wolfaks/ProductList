@@ -45,7 +45,7 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
-    func setCartButtons(product: ProductData) {
+    func setCartButtons(product: Product) {
         
         // Вывод корзины и кол-ва добавленых в корзину
         if product.selectedAmount > 0 {
@@ -107,7 +107,7 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
-    func set(product: ProductData) {
+    func set(product: Product) {
         
         // Устанавливаем обводку
         setBorder()

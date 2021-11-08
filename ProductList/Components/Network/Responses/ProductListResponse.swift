@@ -1,11 +1,11 @@
 
 import Foundation
 
-struct ProductResponse: Decodable, ApiResponse {
-    var product: Product?
+struct ProductListResponse: Decodable, ApiResponse {
+    var products = [Product]()
     
     enum CodingKeys: String, CodingKey {
-        case product = "data"
+        case products = "data"
     }
     
     mutating func decodeJson(json: String) {
@@ -18,8 +18,8 @@ struct ProductResponse: Decodable, ApiResponse {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         do {
-            let responseDecode = try decoder.decode(ProductResponse.self, from: jsonData)
-            self.product = responseDecode.product
+            let responseDecode = try decoder.decode(ProductListResponse.self, from: jsonData)
+            self.products = responseDecode.products
         } catch {
             //print(error)
         }

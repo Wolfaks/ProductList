@@ -11,15 +11,14 @@ class ProductDetailService {
         let link = Constants.Urls.product + "\(id)"
         
         // Получаем список
-        Networking.shared.getData(link: link, params: [:]) { (result) in
-            
+        Networking.shared.getData(link: link, params: [:]) { result in
             do {
-                let response = try ProductResponse(product: result)
-                complition(response)
+                var productResponse = ProductResponse()
+                productResponse.decodeJson(json: result)
+                complition(productResponse)
             } catch {
                 print(error)
             }
-            
         }
         
     }

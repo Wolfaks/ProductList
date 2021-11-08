@@ -95,30 +95,30 @@ class DetailViewController: UIViewController {
         ProductDetailService.getOneProduct(id: productID) { [weak self] (response) in
   
             // Проверяем что данные были успешно обработаны
-            if let product = response.product, let productData = product.data {
+            if let product = response.product {
             
                 // Скрываем анимацию загрузки
                 self?.loadIndicator.stopAnimating()
                 
                 // Задаем обновленный заголовок страницы
-                self?.title = productData.title
+                self?.title = product.title
 
                 // Выводим информацию
-                self?.titleLabel.text = productData.title
-                self?.producerLabel.text = productData.producer
+                self?.titleLabel.text = product.title
+                self?.producerLabel.text = product.producer
                 
                 // Описание
-                self?.changeDescription(text: productData.shortDescription)
+                self?.changeDescription(text: product.shortDescription)
                 
                 // Убираем лишние нули после запятой, если они есть и выводим цену
-                self?.priceLabel.text = String(format: "%g", productData.price) + " ₽"
+                self?.priceLabel.text = String(format: "%g", product.price) + " ₽"
                 
                 // Загрузка изображения, если ссылка пуста, то выводится изображение по умолчанию
                 self?.image.image = UIImage(named: "nophoto")
-                if !productData.imageUrl.isEmpty {
+                if !product.imageUrl.isEmpty {
                     
                     // Загрузка изображения
-                    guard let imageURL = URL(string: productData.imageUrl) else { return }
+                    guard let imageURL = URL(string: product.imageUrl) else { return }
                     ImageNetworking.shared.getImage(link: imageURL) { (img) in
                         DispatchQueue.main.async {
                             self?.image.image = img
@@ -131,7 +131,7 @@ class DetailViewController: UIViewController {
                 self?.setCartButtons()
                 
                 // Устанавливаем загруженные категории и обновляем таблицу
-                if let categories = productData.categories {
+                if let categories = product.categories {
                     self?.dataProvider.categoryList = categories
                     self?.tableView.reloadData()
                 }

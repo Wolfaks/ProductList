@@ -116,7 +116,7 @@ class ListViewController: UIViewController {
     private func loadProducts() {
         
         // Отправляем запрос загрузки товаров
-        ProductsService.getProducts(page: page, searchText: searchText) { [weak self] (response) in
+        ProductListService.getProducts(page: page, searchText: searchText) { [weak self] (response) in
             
             // Скрываем анимацию загрузки
             if self?.page == 1 {
@@ -127,7 +127,7 @@ class ListViewController: UIViewController {
             var products = response.products
 
             // Так как API не позвращает отдельный ключ, который говорит о том, что есть следующая страница, определяем это вручную
-            if !products.isEmpty && products.count == ProductsService.maxProductsOnPage {
+            if !products.isEmpty && products.count == Constants.Settings.maxProductsOnPage {
 
                 // Задаем наличие следующей страницы
                 self?.haveNextPage = true

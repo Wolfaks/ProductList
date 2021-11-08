@@ -1,15 +1,7 @@
 
 import UIKit
 
-struct Products: Decodable {
-    var data: [ProductData]?
-}
-
 struct Product: Decodable {
-    var data: ProductData?
-}
-
-struct ProductData: Decodable {
     let id: Int
     let title: String
     let shortDescription: String

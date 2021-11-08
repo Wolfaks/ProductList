@@ -14,4 +14,8 @@ struct Constants {
         static let product = "https://rstestapi.redsoftdigital.com/api/v1/products/"
     }
     
+    struct Settings {
+        static let maxProductsOnPage = 21
+    }
+    
 }

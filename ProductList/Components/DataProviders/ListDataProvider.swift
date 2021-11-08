@@ -9,7 +9,7 @@ protocol ListDataProviderProtocol: AnyObject {
 
 class ListDataProvider: NSObject {
 
-    var productList = [ProductData]()
+    var productList = [Product]()
     weak var delegate: ListDataProviderProtocol?
 
 }
