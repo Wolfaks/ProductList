@@ -38,7 +38,6 @@ class ListViewController: UIViewController {
         // TableView
         tableView.delegate = dataProvider
         tableView.dataSource = dataProvider
-        tableView.rowHeight = 160.0
         
         // Запрос данных
         loadProducts()
