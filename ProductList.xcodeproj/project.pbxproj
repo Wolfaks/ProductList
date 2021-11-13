@@ -152,6 +152,7 @@
 		AC101F502652DB0A00229855 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ACFCF5542653A80A00A46D40 /* Cells */,
 				AC101F522652DB8C00229855 /* List.storyboard */,
 				AC20A40026553CBD0072D54C /* Xibs */,
 			);
@@ -226,7 +227,6 @@
 		ACFCF5532653A70A00A46D40 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				ACFCF5542653A80A00A46D40 /* Cells */,
 				ACFCF55A2653CCD400A46D40 /* Network */,
 				58C7AC22694E17EECB882B54 /* DataProviders */,
 				AC6571D12735CECE0086BCCC /* Constants.swift */,
