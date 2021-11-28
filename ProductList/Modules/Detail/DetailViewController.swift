@@ -2,7 +2,7 @@
 import UIKit
 
 protocol DetailProductDelegate: class {
-    func changeCartCount(index: Int, value: Int)
+    func changeCartCount(index: Int, value: Int, reload: Bool)
 }
 
 class DetailViewController: UIViewController {
@@ -11,6 +11,8 @@ class DetailViewController: UIViewController {
     var productID: Int?
     var productTitle: String?
     var productSelectedAmount = 0
+    
+    var categoryList = [Category]()
     
     @IBOutlet weak var loadIndicator: UIActivityIndicatorView!
     @IBOutlet weak var infoStackView: UIStackView!
@@ -25,7 +27,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var cartCountView: CartCount!
 
     weak var delegate: DetailProductDelegate?
-    private var dataProvider: DetailDataProvider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +40,9 @@ class DetailViewController: UIViewController {
             title = productTitle
         }
         
-        // dataProvider
-        dataProvider = DetailDataProvider()
-        
         // TableView
-        tableView.delegate = dataProvider
-        tableView.dataSource = dataProvider
+        tableView.delegate = self
+        tableView.dataSource = self
         
         // Запрос данных
         loadProduct()
@@ -132,7 +130,7 @@ class DetailViewController: UIViewController {
                 
                 // Устанавливаем загруженные категории и обновляем таблицу
                 if let categories = product.categories {
-                    self?.dataProvider.categoryList = categories
+                    self?.categoryList = categories
                     self?.tableView.reloadData()
                 }
                 
@@ -143,6 +141,34 @@ class DetailViewController: UIViewController {
             
         }
         
+    }
+    
+}
+
+extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        categoryList.count
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryListTableCell
+        cell.set(category: categoryList[indexPath.row])
+        return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.layoutIfNeeded()
     }
     
 }
@@ -158,7 +184,7 @@ extension DetailViewController: CartCountDelegate {
         setCartButtons()
         
         // Обновляем значение в делегированном классе
-        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
+        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount, reload: true)
         
     }
 }
@@ -174,7 +200,7 @@ extension DetailViewController: CartBtnDetailDelegate {
         setCartButtons()
         
         // Обновляем значение в делегированном классе
-        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount)
+        delegate?.changeCartCount(index: productIndex, value: productSelectedAmount, reload: true)
         
     }
 }

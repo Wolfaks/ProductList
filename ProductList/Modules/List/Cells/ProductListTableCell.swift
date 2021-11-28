@@ -2,7 +2,7 @@
 import UIKit
 
 protocol ProductListCellDelegate: class {
-    func changeCartCount(index: Int, value: Int)
+    func changeCartCount(index: Int, value: Int, reload: Bool)
     func redirectToDetail(index: Int)
 }
 
@@ -45,10 +45,10 @@ class ProductListTableCell: UITableViewCell {
         
     }
     
-    func setCartButtons(product: Product) {
+    func setCartButtons(count: Int) {
         
         // Вывод корзины и кол-ва добавленых в корзину
-        if product.selectedAmount > 0 {
+        if count > 0 {
 
             // Удаляем cartBtnListView
             stackFooterCell.removeArrangedSubview(cartBtnListView)
@@ -58,7 +58,7 @@ class ProductListTableCell: UITableViewCell {
             stackFooterCell.addArrangedSubview(cartCountView)
 
             // Задаем текущее значение счетчика
-            cartCountView.count = product.selectedAmount
+            cartCountView.count = count
 
             // Подписываемся на делегат
             cartCountView.delegate = self
@@ -135,7 +135,7 @@ class ProductListTableCell: UITableViewCell {
         }
         
         // Вывод корзины и кол-ва добавленых в корзину
-        setCartButtons(product: product)
+        setCartButtons(count: product.selectedAmount)
         
         // Действия при клике
         setClicable()
@@ -149,7 +149,8 @@ extension ProductListTableCell: CartCountDelegate {
     func changeCount(value: Int) {
         // Изменяем значение количества в структуре
         guard let productIndex = productIndex else { return }
-        delegate?.changeCartCount(index: productIndex, value: value)
+        setCartButtons(count: value)
+        delegate?.changeCartCount(index: productIndex, value: value, reload: false)
     }
     
 }
@@ -158,6 +159,7 @@ extension ProductListTableCell: CartBtnListDelegate {
     func addCart() {
         // Добавляем товар в карзину
         guard let productIndex = productIndex else { return }
-        delegate?.changeCartCount(index: productIndex, value: 1)
+        setCartButtons(count: 1)
+        delegate?.changeCartCount(index: productIndex, value: 1, reload: false)
     }
 }

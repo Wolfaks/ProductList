@@ -7,7 +7,7 @@ class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadIndicator: UIActivityIndicatorView!
     
-    private var dataProvider: ListDataProvider!
+    var productList = [Product]()
 
     // Поиск
     var searchText = ""
@@ -27,17 +27,13 @@ class ListViewController: UIViewController {
     
     private func settingUI() {
         
-        // dataProvider
-        dataProvider = ListDataProvider()
-        dataProvider.delegate = self
-        
         // searchForm
         searchForm.delegate = self
         searchForm.addTarget(self, action: #selector(changeSearchText), for: .editingChanged) // добавляем отслеживание изменения текста
         
         // TableView
-        tableView.delegate = dataProvider
-        tableView.dataSource = dataProvider
+        tableView.delegate = self
+        tableView.dataSource = self
         
         // Запрос данных
         loadProducts()
@@ -104,7 +100,7 @@ class ListViewController: UIViewController {
     private func removeOldProducts() {
         
         // Очищаем старые данные и обновляем таблицу
-        dataProvider.productList.removeAll()
+        productList.removeAll()
         tableView.reloadData()
         
         // Отображаем анимацию загрузки
@@ -138,7 +134,7 @@ class ListViewController: UIViewController {
 
             // Устанавливаем загруженные товары и обновляем таблицу
             // append contentsOf так как у нас метод грузит как первую страницу, так и последующие
-            self?.dataProvider.productList.append(contentsOf: products)
+            self?.productList.append(contentsOf: products)
             self?.tableView.reloadData()
             
         }
@@ -149,14 +145,14 @@ class ListViewController: UIViewController {
         
         if segue.identifier == "detail" {
             
-            if let index = productIndex, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) {
+            if let index = productIndex, !productList.isEmpty && productList.indices.contains(index) {
             
                 // Переход в детальную информацию
                 guard let detailController = segue.destination as? DetailViewController else { return }
                 detailController.productIndex = index
-                detailController.productID = dataProvider.productList[index].id
-                detailController.productTitle = dataProvider.productList[index].title
-                detailController.productSelectedAmount = dataProvider.productList[index].selectedAmount
+                detailController.productID = productList[index].id
+                detailController.productTitle = productList[index].title
+                detailController.productSelectedAmount = productList[index].selectedAmount
                 detailController.delegate = self
 
             }
@@ -165,9 +161,6 @@ class ListViewController: UIViewController {
         
     }
     
-}
-
-extension ListViewController: ListDataProviderProtocol {
     func nextPage() {
         // Загружаем следующую страницу, если она есть
         if haveNextPage {
@@ -181,17 +174,48 @@ extension ListViewController: ListDataProviderProtocol {
 
         }
     }
-    
-    func updateTableView() {
-         // Обновляем tableView по запросу из ListDataProvider
-         tableView.reloadData()
-     }
      
      func showDetail(index: Int) {
          // Выполняем переход в детальную информацию
          productIndex = index
          performSegue(withIdentifier: "detail", sender: self)
      }
+    
+}
+
+extension ListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        productList.count
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ProductListTableCell
+        cell.productIndex = indexPath.row
+        cell.set(product: productList[indexPath.row])
+        cell.delegate = self
+        return cell
+        
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.layoutIfNeeded()
+        
+        // Проверяем что оторазили последний элемент и если есть, отображаем следующую страницу
+        if !productList.isEmpty && indexPath.row == (productList.count - 1) {
+            nextPage()
+        }
+    }
+
 }
 
 extension ListViewController: UITextFieldDelegate {
@@ -207,20 +231,32 @@ extension ListViewController: UITextFieldDelegate {
     }
 }
 
-extension ListViewController: DetailProductDelegate {
+extension ListViewController: ProductListCellDelegate, DetailProductDelegate {
     
-    func changeCartCount(index: Int, value: Int) {
+    func changeCartCount(index: Int, value: Int, reload: Bool) {
         
         // Изменяем кол-во товара в корзине
-        if let index = productIndex, !dataProvider.productList.isEmpty && dataProvider.productList.indices.contains(index) {
+        if !productList.isEmpty && productList.indices.contains(index) {
             
             // Записываем новое значение
-            dataProvider.productList[index].selectedAmount = value
+            productList[index].selectedAmount = value
             
             // Обновляем tableView
-            tableView.reloadData()
+            if reload {
+                tableView.reloadData()
+            }
             
         }
+        
+    }
+    
+    func redirectToDetail(index: Int) {
+        
+        // Выполняем переход в детальную информацию
+        if !productList.indices.contains(index) {
+            return
+        }
+        showDetail(index: index)
         
     }
     
